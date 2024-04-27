@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using TMPro;
 
 public class MachineController : MonoBehaviour
 {
     private Process p;
+    public string gameName;
     public string path;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        transform.parent.GetComponent<SectionController>().setGameName(gameName);
     }
 
     private void OnTriggerStay(Collider other)
