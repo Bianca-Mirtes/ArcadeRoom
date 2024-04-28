@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     public GameObject MainMenu;
     public GameObject AddMenu;
     public GameObject RemoveMenu;
-    public GameObject SaveMenu;
+    public GameObject ExitMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -50,15 +50,11 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
+            ExitMenu.SetActive(true);
             AddMenu.SetActive(false);
             RemoveMenu.SetActive(false);
-            MainMenu.SetActive(true);
-            MainMenu.GetComponent<Animator>().Play("FadeIn");
-        }
-        if(Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            SaveMenu.SetActive(true);
-            SaveMenu.GetComponent<Animator>().Play("FadeIn");
+            MainMenu.SetActive(false);
+            ExitMenu.GetComponent<Animator>().Play("FadeIn");
         }
     }
 
@@ -78,12 +74,16 @@ public class GameController : MonoBehaviour
                 PlayerPrefs.SetString(arcade.name, "empty");
             }
         }
-        SaveMenu.GetComponent<Animator>().Play("FadeOut");
+        ExitMenu.GetComponent<Animator>().Play("FadeOut");
         PlayerPrefs.SetInt("Room", 1);
         ExistSave = true;
         PlayerPrefs.Save();
     }
 
+    public void DelSave()
+    {
+        PlayerPrefs.SetInt("Room", 0);
+    }
 
     public int getGameMode()
     {
@@ -120,7 +120,7 @@ public class GameController : MonoBehaviour
     }
     public void AddGameMachine()
     {
-        AddMenu.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Jogo: ";
+        AddMenu.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Game: ";
 
         AddMenu.transform.GetChild(2).gameObject.SetActive(false);
         AddMenu.transform.GetChild(3).gameObject.SetActive(false);
@@ -148,7 +148,23 @@ public class GameController : MonoBehaviour
 
         currentMachine.transform.GetChild(0).gameObject.SetActive(true); // ativa o text do titulo do jogo
         currentMachine.GetComponent<SectionController>().ChangeScan(0); // muda o scan
-        AddMenu.GetComponent<Animator>().Play("FadeOut");
+        AddMenu.GetComponent<Animator>().Play("FadeOut"); // fecha o menu
+
+        // Apaga os inputs e desativa menu depois que são enviadas as informações obtidas (motivo: UI compartilhada entre as maquinas)
+        AddMenu.transform.GetChild(6).GetComponent<TMP_InputField>().text = "";
+        AddMenu.transform.GetChild(7).GetComponent<TMP_InputField>().text = "";
+
+        AddMenu.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "What do you want: ";
+
+        AddMenu.transform.GetChild(2).gameObject.SetActive(true);
+        AddMenu.transform.GetChild(3).gameObject.SetActive(true);
+
+        AddMenu.transform.GetChild(4).gameObject.SetActive(false);
+        AddMenu.transform.GetChild(5).gameObject.SetActive(false);
+
+        AddMenu.transform.GetChild(6).gameObject.SetActive(false);
+        AddMenu.transform.GetChild(7).gameObject.SetActive(false);
+        AddMenu.transform.GetChild(8).gameObject.SetActive(false);
         AddMenu.SetActive(false);
     }
 
@@ -164,7 +180,7 @@ public class GameController : MonoBehaviour
         AddMenu.transform.GetChild(6).GetComponent<TMP_InputField>().text = "";
         AddMenu.transform.GetChild(7).GetComponent<TMP_InputField>().text = "";
 
-        AddMenu.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "O que deseja fazer: ";
+        AddMenu.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "What do you want: ";
 
         AddMenu.transform.GetChild(2).gameObject.SetActive(true);
         AddMenu.transform.GetChild(3).gameObject.SetActive(true);
