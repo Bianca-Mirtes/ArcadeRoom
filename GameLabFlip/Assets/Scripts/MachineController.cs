@@ -12,7 +12,12 @@ public class MachineController : MonoBehaviour
 
     public void setGamePath(string path)
     {
-        this.gamePath = path; 
+        gamePath = path; 
+    }
+
+    public string getGamePath()
+    {
+        return gamePath;
     }
 
     private void OnTriggerStay(Collider other)

@@ -10,6 +10,7 @@ public class SectionController : MonoBehaviour
     public TextMeshProUGUI gameName;
     public Material blueScan;
     public Material redScan;
+    public int stateSection = 0;
 
     public void ChangeScan(int value)
     {
@@ -23,6 +24,16 @@ public class SectionController : MonoBehaviour
             scan.GetComponent<MeshRenderer>().material = redScan;
             scan.tag = "RedScan";
         }
+    }
+
+    public int GetStateSection()
+    {
+        return stateSection;
+    }
+
+    public void SetStateSection(int value)
+    {
+        stateSection = value;
     }
 
 
