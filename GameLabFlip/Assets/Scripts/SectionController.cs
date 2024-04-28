@@ -8,11 +8,23 @@ public class SectionController : MonoBehaviour
 {
     public GameObject scan;
     public TextMeshProUGUI gameName;
+    public Material blueScan;
+    public Material redScan;
 
-    public void setGameName(string name)
+    public void ChangeScan(int value)
     {
-        gameName.text = name;
+        if (value == 0)
+        {
+            scan.GetComponent<MeshRenderer>().material = blueScan;
+            scan.tag = "BlueScan";
+        }
+        if(value == 1)
+        {
+            scan.GetComponent<MeshRenderer>().material = redScan;
+            scan.tag = "RedScan";
+        }
     }
+
 
     private void OnMouseEnter()
     {
@@ -20,7 +32,10 @@ public class SectionController : MonoBehaviour
         {
             scan.SetActive(true);
         }
-
+        else
+        {
+            scan.SetActive(false);
+        }
     }
     private void OnMouseExit()
     {
@@ -34,7 +49,15 @@ public class SectionController : MonoBehaviour
     {
         if (FindObjectOfType<GameController>().getGameMode() == 0)
         {
-            FindObjectOfType<GameController>().ActiveArcadeMenu(gameObject);
+            if (scan.tag.Equals("RedScan"))
+            {
+                FindObjectOfType<GameController>().ActiveArcadeMenu(gameObject, "add");
+            }
+
+            if (scan.tag.Equals("BlueScan"))
+            {
+                FindObjectOfType<GameController>().ActiveArcadeMenu(gameObject, "rem");
+            }
         }
     }
 }

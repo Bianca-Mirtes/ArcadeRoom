@@ -8,25 +8,27 @@ using TMPro;
 public class MachineController : MonoBehaviour
 {
     private Process p;
-    public string gameName;
-    public string path;
+    private string gamePath;
 
-    private void Start()
+    public void setGamePath(string path)
     {
-        transform.parent.GetComponent<SectionController>().setGameName(gameName);
+        this.gamePath = path; 
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag.Equals("Player")){
-            if (Input.GetKeyDown(KeyCode.E))
+            if(FindObjectOfType<GameController>().getGameMode() == 0)
             {
-                p = new Process();
-                p.StartInfo.UseShellExecute = true;
-                string textoComBarrasInvertidas = path;
-                string textoComBarras = Regex.Replace(textoComBarrasInvertidas, @"T:\\", "/");
-                p.StartInfo.FileName = textoComBarras;
-                p.Start();
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    p = new Process();
+                    p.StartInfo.UseShellExecute = true;
+                    string textoComBarrasInvertidas = gamePath;
+                    string textoComBarras = Regex.Replace(textoComBarrasInvertidas, @"T:\\", "/");
+                    p.StartInfo.FileName = textoComBarras;
+                    p.Start();
+                }
             }
         }
     }
