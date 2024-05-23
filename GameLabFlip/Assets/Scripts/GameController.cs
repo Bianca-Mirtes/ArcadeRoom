@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Device;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using UnityEngineInternal;
 
 public class GameController : MonoBehaviour
 {
-    public List<GameObject> arcades;
+    private GameObject[] arcades;
     private GameObject currentMachine;
     private int gameMode = -1;
     private bool ExistSave = false;
@@ -23,6 +25,9 @@ public class GameController : MonoBehaviour
     void Start()
     {
         MainMenu.GetComponent<Animator>().Play("FadeIn");
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().setUIOpen(true);
+        arcades = GameObject.FindGameObjectsWithTag("Arcade");
+        
         if(PlayerPrefs.GetInt("Room") == 1)
         {
             ExistSave = true;
@@ -33,6 +38,7 @@ public class GameController : MonoBehaviour
             {
                 if (!PlayerPrefs.GetString(arcade.name).Equals("empty"))
                 {
+                    arcade.GetComponent<SectionController>().SetStateSection(1);
                     arcade.transform.GetChild(2).gameObject.SetActive(false);
                     arcade.transform.GetChild(3).gameObject.SetActive(true);
                     string save = PlayerPrefs.GetString(arcade.name);
@@ -50,6 +56,7 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().setUIOpen(true);
             ExitMenu.SetActive(true);
             AddMenu.SetActive(false);
             RemoveMenu.SetActive(false);
@@ -85,6 +92,11 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt("Room", 0);
     }
 
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public int getGameMode()
     {
         return gameMode;
@@ -92,6 +104,7 @@ public class GameController : MonoBehaviour
 
     public void AdmMode()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().setUIOpen(false);
         MainMenu.GetComponent<Animator>().Play("FadeOut");
         gameMode = 0;
     }
@@ -114,10 +127,19 @@ public class GameController : MonoBehaviour
 
     public void PlayerMode()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().setUIOpen(false);
         MainMenu.GetComponent<Animator>().Play("FadeOut");
         gameMode = 1;
 
+        foreach (GameObject arcade in arcades)
+        {
+            if (arcade.GetComponent<SectionController>().GetStateSection() == 0)
+            {
+                arcade.SetActive(false);
+            }
+        }
     }
+
     public void AddGameMachine()
     {
         AddMenu.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Game: ";

@@ -6,20 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    private static MenuController instance = null;
-
-    private void Start()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
     public void StartGame()
     {
         SceneManager.LoadScene(1);
@@ -28,10 +14,5 @@ public class MenuController : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-    }
-
-    public void ReturnToMenu()
-    {
-        SceneManager.LoadScene(0);
     }
 }

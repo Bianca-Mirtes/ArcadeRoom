@@ -36,7 +36,6 @@ public class SectionController : MonoBehaviour
         stateSection = value;
     }
 
-
     private void OnMouseEnter()
     {
         if(FindObjectOfType<GameController>().getGameMode() == 0)
@@ -63,11 +62,13 @@ public class SectionController : MonoBehaviour
             if (scan.tag.Equals("RedScan"))
             {
                 FindObjectOfType<GameController>().ActiveArcadeMenu(gameObject, "add");
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().setUIOpen(true);
             }
 
             if (scan.tag.Equals("BlueScan"))
             {
                 FindObjectOfType<GameController>().ActiveArcadeMenu(gameObject, "rem");
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().setUIOpen(true);
             }
         }
     }

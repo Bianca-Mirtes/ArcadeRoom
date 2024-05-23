@@ -23,14 +23,14 @@ public class MachineController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag.Equals("Player")){
-            if(FindObjectOfType<GameController>().getGameMode() == 0)
+            if(FindObjectOfType<GameController>().getGameMode() == 1)
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     p = new Process();
-                    p.StartInfo.UseShellExecute = true;
+                    p.StartInfo.UseShellExecute = false;
                     string textoComBarrasInvertidas = gamePath;
-                    string textoComBarras = Regex.Replace(textoComBarrasInvertidas, @"T:\\", "/");
+                    string textoComBarras = Regex.Replace(textoComBarrasInvertidas, @"\\", "/");
                     p.StartInfo.FileName = textoComBarras;
                     p.Start();
                 }
