@@ -10,6 +10,8 @@ public class MachineController : MonoBehaviour
     private Process p;
     private string gamePath;
 
+    public GameObject GameMenu;
+
     public void setGamePath(string path)
     {
         gamePath = path; 
@@ -32,9 +34,15 @@ public class MachineController : MonoBehaviour
                     string textoComBarrasInvertidas = gamePath;
                     string textoComBarras = Regex.Replace(textoComBarrasInvertidas, @"\\", "/");
                     p.StartInfo.FileName = textoComBarras;
-                    p.Start();
+                    GameMenu.SetActive(true);
+                    //p.Start();
                 }
             }
         }
+    }
+
+    public void StartGame()
+    {
+        p.Start();
     }
 }

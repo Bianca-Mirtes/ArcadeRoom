@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rig;
-    [SerializeField] private float speed = 3;
+    [SerializeField] private float speed = 5;
 
     private bool UIOpen = false;
     private float mouseX;
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         {
             mouseX = Input.GetAxisRaw("Mouse X");
         }
-        transform.Translate(new Vector3(horizontal, 0, vertical) * speed * Time.deltaTime);
+        transform.Translate(new Vector3(horizontal, 0, vertical) * Time.deltaTime, Space.Self);
         transform.Rotate(new Vector3(0, 90f * mouseX * Time.deltaTime, 0));
     }
 }
